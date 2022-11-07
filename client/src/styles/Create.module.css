@@ -1,0 +1,49 @@
+.detailsWrapper{
+ background-color: green;
+ display: flex;
+ width: 100%;
+ height: 80vh;
+ background: url("https://c1.wallpaperflare.com/preview/217/336/936/rack-clothing-brand-t-shirt.jpg");
+ background-position: center;
+ background-repeat: no-repeat;
+ background-size: cover;
+
+}
+.detailForms{
+    width: 100%;
+    padding: 0%;
+    background-color: transparent;
+}
+form{
+    margin-top:10vh ;
+    background-color: transparent;
+
+}
+fieldset{
+    /* width: 100%; */
+    max-width: 300px;
+    min-width: 250px;
+    margin: 5vh auto;
+    display: flex;
+    flex-direction: column;
+    padding:50px 30px;
+    border-radius: 10px;
+    gap:20px;
+    border-color:transparent ;
+    background-color:rgba(128, 128, 128 ,0.8);
+}
+label{
+    color: black;
+}
+input{
+    padding:5px 10px;
+    border: 1px solid transparent;
+    border-radius: 5    px;
+}
+.inputGroup{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* border: 1px solid red; */
+}
