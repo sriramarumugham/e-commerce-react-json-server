@@ -11,7 +11,7 @@ const initialState = {
 export const fetchAsyncThunk = createAsyncThunk(
   "products/fetchAsyncThunk",
   async () => {
-    const response = await fetch("http://localhost:3001/products");
+    const response = await fetch("/products");
     const data = await response.json();
     console.log(data);
     return data;
@@ -30,7 +30,7 @@ export const addAsyncThunk = createAsyncThunk(
     }
 
     const response = await fetch(
-      "http://localhost:3001/products",
+      "/products",
       requestOptions
     );
     const data = await response.json();
@@ -42,7 +42,7 @@ export const addAsyncThunk = createAsyncThunk(
 export const cartAsyncThunk = createAsyncThunk(
   "products/checkAsyncThunk",
   async () => {
-    const response = await fetch("http://localhost:3001/cart");
+    const response = await fetch("/cart");
     const data = await response.json();
     console.log(data);
     return data;
@@ -58,7 +58,7 @@ export const addToFavAsyncThunk = createAsyncThunk(
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(product),
     };
-    const response = await fetch("http://localhost:3001/cart", requestOptions);
+    const response = await fetch("/cart", requestOptions);
     const data = await response.json();
     return data;
   }
@@ -74,7 +74,7 @@ export const deleteFromFavAsyncThunk = createAsyncThunk(
 
     let id = product.id;
     const response = await fetch(
-      `http://localhost:3001/cart/${id}`,
+      `/cart/${id}`,
       requestOptions
     );
     const data = await response.json();
@@ -91,7 +91,7 @@ export const getMovieAsyncThunk = createAsyncThunk(
     };
 
     const response = await fetch(
-      `http://localhost:3001/products/${id}`,
+      `/products/${id}`,
       requestOptions
     );
     const data = await response.json();
@@ -106,7 +106,7 @@ export const deleteProductAsyncThunk = createAsyncThunk(
       method: "DELETE",
     };
     const response = await fetch(
-      `http://localhost:3001/products/${id}`,
+      `/products/${id}`,
       requestOptions
     );
     const data = await response.json();
