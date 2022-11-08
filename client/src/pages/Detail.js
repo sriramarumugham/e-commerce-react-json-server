@@ -1,45 +1,73 @@
+//components
+import { Navbar } from "../components/index";
+
+//react hooks
 import React, { useEffect, useState } from "react";
-import { useDispatch , useSelector} from "react-redux";
+
+//redux
+import { useDispatch, useSelector } from "react-redux";
+
+//router dom
 import { useNavigate, useParams } from "react-router-dom";
 
-
-import { Navbar } from "../components/index";
-import productSlice ,{ getMovieAsyncThunk ,addToFavAsyncThunk, getItemsFromcart , deleteProductAsyncThunk ,deleteFromFavAsyncThunk}from "../features/products/productSlice";
+//redux thunks
+import {
+  getMovieAsyncThunk,
+  addToFavAsyncThunk,
+  getItemsFromcart,
+  deleteProductAsyncThunk,
+  deleteFromFavAsyncThunk,
+} from "../features/products/productSlice";
 
 import styles from "../styles/Detail.module.css";
+
 function Detail() {
+  //gets id from the url
   let { id } = useParams();
-  const dispatch=useDispatch();
-  
-  const [product , setProduct]=useState({});
-  const navigate=useNavigate();
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  //state to hold the fetched product detial
+  const [product, setProduct] = useState({});
+
   const cartItmes = useSelector(getItemsFromcart);
 
- let result=false;
+  //fetches the details on page reload
+  useEffect(() => {
+    const getdatas = async () => {
+      const response = await dispatch(getMovieAsyncThunk(id));
+      if (response.type === "products/getMovieAsyncThunk/fulfilled") {
+        setProduct(response.payload);
+      }
+    };
+
+    getdatas();
+  }, []);
+
+  //fucntion to check is the product is false
+
   function checkFav(id) {
-    if(cartItmes !=undefined){
+    let result = false;
+    if (cartItmes != undefined) {
+      //iterates over the product to check is the produc is fav
       cartItmes.map((item) => {
         if (item.id === id) {
           result = true;
         }
       });
     }
-    
     return result;
   }
 
-  useEffect(()=>{
-    const getdatas=async ()=>{
-      const response=await dispatch(getMovieAsyncThunk(id));
-       if(response.type==='products/getMovieAsyncThunk/fulfilled'){
-        //  product=response.payload;
-         setProduct(response.payload)
-        }
-       console.log(product)
+  //detlet a product
+  const deleteItem = async (id) => {
+    const response = await dispatch(deleteProductAsyncThunk(id));
+    if (response.type === "products/deleteProductAsyncThunk/fulfilled") {
+      navigate(`/`);
     }
-    getdatas();
-  },[])
-  
+  };
+
   return (
     <>
       <Navbar />
@@ -51,14 +79,8 @@ function Detail() {
 
           <div className={styles.secondaryImgContainer}>
             <div className={styles.secondaryImages}>
-              <img
-                className={styles.images}
-                src={product.url}
-              />
-              <img
-                className={styles.images}
-                src={product.url}
-              />
+              <img className={styles.images} src={product.url} />
+              <img className={styles.images} src={product.url} />
             </div>
           </div>
         </div>
@@ -68,57 +90,33 @@ function Detail() {
           <h3>{product.price}$</h3>
           <h3>Color: {product.color}</h3>
           <div className={styles.sizes}>
-          <h3>Size  </h3>
-          <h3>{product.sizeS?<button>S</button> :""} </h3>
-          <h3>{product.sizeM ?<button>M</button>:""} </h3>
-          <h3>{product.sizeL?<button>L</button>:""} </h3>
+            <h3>Size </h3>
+            <h3>{product.sizeS ? <button>S</button> : ""} </h3>
+            <h3>{product.sizeM ? <button>M</button> : ""} </h3>
+            <h3>{product.sizeL ? <button>L</button> : ""} </h3>
           </div>
-          <button   
-              onClick={() => {
-                if (checkFav(product.id)) {
-                  console.log("delet from fav");
 
-                  const deletFromFavourites = async () => {
-                    const result = await dispatch(
-                      deleteFromFavAsyncThunk(product)
-                    );
-                    if (result.meta.requestStatus === "fulfilled") {
-                      
-                    }
-                  };
-
-                  deletFromFavourites();
-
-                } else {
-                  console.log("false  add to fav");
-
-                  const addtofav = async () => {
-                    const result = await dispatch(addToFavAsyncThunk({...product , quantity:1}));
-                    if (result.meta.requestStatus === "fulfilled") {
-                    }
-                  };
-                  addtofav();
-                }
-              }}
-            >
-              { checkFav(product.id)? (
-                
-                "Remove from cart"
-              ) : (
-               "Add to cart"
-              )}
-            </button>
-          <button onClick={()=>{
-            const delteAProduct=async(id)=>{
-              const response=await  dispatch(deleteProductAsyncThunk(id));
-              console.log(response);
-              if(response.type==="products/deleteProductAsyncThunk/fulfilled"){
-                navigate(`/`);
+          {/* favourtie and unfavourite button */}
+          <button
+            onClick={() => {
+              if (checkFav(product.id)) {
+                deleteFromFavAsyncThunk(product);
+              } else {
+                addToFavAsyncThunk({ ...product, quantity: 1 });
               }
-            }
-           delteAProduct(product.id);
+            }}
+          >
+            {checkFav(product.id) ? "Remove from cart" : "Add to cart"}
+          </button>
 
-          }}>Delet product</button>
+          {/* delte the product butotn */}
+          <button
+            onClick={() => {
+              deleteItem(product.id);
+            }}
+          >
+            Delet product
+          </button>
         </div>
       </div>
     </>

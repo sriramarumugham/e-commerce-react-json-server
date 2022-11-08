@@ -1,18 +1,29 @@
 import React, { useState } from "react";
 
-import styles from "../styles/Create.module.css";
+// components
+
 import { Navbar } from "../components/index";
 
+//reactforms
 import { useForm } from "react-hook-form";
 
+//uuid for unique id
 import { v4 as uuidv4 } from "uuid";
-import { toast, ToastContainer } from "react-toastify";
-
-import {addAsyncThunk} from '../features/products/productSlice';
 
 import { useDispatch } from "react-redux";
+
+//create new product
+import { addAsyncThunk } from "../features/products/productSlice";
+
+//react router dom
 import { useNavigate } from "react-router-dom";
 
+//tostify
+import { toast, ToastContainer } from "react-toastify";
+
+import styles from "../styles/Create.module.css";
+
+//to reset to default value and show this a  the inital value through react forms
 const defaultValues = {
   color: "",
   men: "",
@@ -25,7 +36,12 @@ const defaultValues = {
 };
 
 function Create() {
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
+
+  //destructruing objects from useForms
+
+  const navigate = useNavigate();
+
   const {
     handleSubmit,
     register,
@@ -33,27 +49,16 @@ function Create() {
     formState: { errors },
   } = useForm({ defaultValues });
 
-  const [product, setProduct] = useState(null);
-  const navigate=useNavigate();
+  //function to disptch async action and rest the data of form and navigate to home page
+  const createAproduct = async (data) => {
+    const uniqueid = uuidv4;
 
-  const createAproduct=async(data)=> {
-    
-    const uniqueid = uuidv4();
-
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: uniqueid, ...data }),
+    const newProeuct = {
+      id: uniqueid,
+      ...data,
     };
 
-    // console.log(requestOptions);
-
-    // fetch("http://localhost:3001/products", requestOptions)
-    //   .then((response) => response.json())
-    //   .then((data) => console.log(data));
-
-    const response=await dispatch(addAsyncThunk(requestOptions));
-    
+    const response = await dispatch(addAsyncThunk(newProeuct));
 
     reset({
       color: "",
@@ -65,27 +70,25 @@ function Create() {
       sizeS: "true",
       url: "",
     });
-    if(response.type==="products/addAsyncThunk/fulfilled"){
-      navigate('/');
+    //if fulfilled navigat to home
+    if (response.type === "products/addAsyncThunk/fulfilled") {
+      navigate("/");
     }
-  }
-
-  function alert() {
-    window.alert("Enter all fields");
-  }
+  };
   return (
     <>
       <Navbar />
       <div className={styles.detailsWrapper}>
         <div className={styles.detailForms}>
+          <h1>Create product</h1>
           <form
             onSubmit={handleSubmit((product) => {
-              setProduct(product);
+              //create a new product in db after vallidation
               createAproduct(product);
             })}
           >
             <fieldset>
-              {/* <Controller> */}
+              {/* name */}
               <div className={styles.inputGroup}>
                 <label for="pname">Product name:</label>
                 <input
@@ -93,10 +96,10 @@ function Create() {
                   placeholder="Product Name"
                   name="name"
                   type="text"
-                  {...register("name", { required: true , maxLength:200 })}
+                  {...register("name", { required: true, maxLength: 200 })}
                 />
               </div>
-
+              {/* price */}
               <div className={styles.inputGroup}>
                 <label for="pprice">Product Price:</label>
                 <input
@@ -107,6 +110,7 @@ function Create() {
                   {...register("price", { required: true, maxLength: 10000 })}
                 />
               </div>
+              {/* size */}
 
               <div className={styles.inputGroup}>
                 <label for="s">Product size:</label>
@@ -136,7 +140,7 @@ function Create() {
                 />
                 <label for="l">L</label>
               </div>
-
+              {/* color */}
               <div className={styles.inputGroup}>
                 <label for="pcolor">Product color:</label>
                 <input
@@ -146,7 +150,7 @@ function Create() {
                   {...register("color", { required: true })}
                 />
               </div>
-
+              {/* gender */}
               <div className={styles.inputGroup}>
                 <label for="men">Gender:</label>
                 <input
@@ -166,7 +170,7 @@ function Create() {
                 />
                 <label for="women">Women</label>
               </div>
-
+                {/* image */}
               <div className={styles.inputGroup}>
                 <label for="pUrl">Product image url:</label>
                 <input
@@ -181,7 +185,12 @@ function Create() {
 
               <button
                 type="submit"
+
+                // handles submit aciton 
+
+
                 onClick={() => {
+                  //form validation
                   if (
                     errors.url ||
                     errors.color ||
@@ -189,6 +198,7 @@ function Create() {
                     errors.men ||
                     errors.price
                   ) {
+                    //if not filled 
                     toast.warn("fill all feald", {
                       autoClose: 600,
                       theme: "colored",
@@ -200,6 +210,8 @@ function Create() {
               </button>
             </fieldset>
           </form>
+          
+          {/* to send notification */}
           <ToastContainer />
         </div>
       </div>

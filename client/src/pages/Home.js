@@ -1,74 +1,51 @@
-import React, { useState } from "react";
-
 import { Tabs, ProductCard, Header } from "../components/index";
-import styles from "../styles/Home.module.css";
 
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
 
+import { useSelector, useDispatch } from "react-redux";
+
+//actions
 import {
   fetchAsyncThunk,
-  cartAsyncThunk,
   getAllProducts,
   getItemsFromcart,
 } from "../features/products/productSlice";
-import { useDispatch } from "react-redux";
 
-import { useEffect } from "react";
+import styles from "../styles/Home.module.css";
 
 function Home() {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchAsyncThunk());
   }, []);
 
+  //get the product list from state
   const products = useSelector(getAllProducts);
 
-  
+  //get the cart items from state
   const cartItmes = useSelector(getItemsFromcart);
 
-
+  //to toggle between sessions
   const [showMensT, setShowMensT] = useState(true);
 
-  
-
-  // function checkFav(id){
-  //   let result=false;
-  //      result=  cartItmes.map((item)=>{
-  //       // console.log(item , id);
-  //       if(item.id===id){
-  //         // console.log("found")
-  //         return true;
-  //       }
-  //      })
-
-  //      return result;
-  // }
-
+  //to render list based on selection
   function renderCards(products) {
-
-    if(products!=undefined){
+    if (products != undefined) {
       const renderedProducts = products.map((product) => {
-         let result=false;
-         if(cartItmes!=undefined){
-          result=cartItmes.map(item=>{
-            if(item.id===product.id){
-              result= true;
-            }
-          })
-         }
-          
-        return <ProductCard product={product} isFav={result}  />;
+        return <ProductCard product={product} />;
       });
-  
+
       return renderedProducts;
     }
-    
   }
-
+  //to seletc the produts from state based on user action
   function showMenOrWomen() {
     if (showMensT) {
+      //sends men product
       return renderCards(products.men);
     } else {
+      //sends women product
       return renderCards(products.women);
     }
   }
@@ -77,8 +54,13 @@ function Home() {
     <>
       <Header />
       <div className={styles.homeWrapper}>
-        <Tabs setShowMensT={setShowMensT} showMensT={showMensT} />     
+
+        {/* tab components show the product sessions */}
+        <Tabs setShowMensT={setShowMensT} showMensT={showMensT} />
+
+        {/* displays products from product sessoion */}
         <div className={styles.cardsContainer}>{showMenOrWomen()}</div>
+        
       </div>
     </>
   );

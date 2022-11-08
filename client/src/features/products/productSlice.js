@@ -1,5 +1,4 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { useNavigate } from "react-router-dom";
 
 import { toast } from "react-toastify";
 
@@ -8,8 +7,7 @@ const initialState = {
   cart: [],
 };
 
-
-
+// to get all products on page load
 export const fetchAsyncThunk = createAsyncThunk(
   "products/fetchAsyncThunk",
   async () => {
@@ -20,9 +18,17 @@ export const fetchAsyncThunk = createAsyncThunk(
   }
 );
 
+// to add a new products to db
 export const addAsyncThunk = createAsyncThunk(
+
   "products/addAsyncThunk",
-  async (requestOptions) => {
+  async (productdata) => {
+    const requestOptions={
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify( productdata),
+    }
+
     const response = await fetch(
       "http://localhost:3001/products",
       requestOptions
@@ -32,6 +38,7 @@ export const addAsyncThunk = createAsyncThunk(
   }
 );
 
+// get cart list from db
 export const cartAsyncThunk = createAsyncThunk(
   "products/checkAsyncThunk",
   async () => {
@@ -42,6 +49,7 @@ export const cartAsyncThunk = createAsyncThunk(
   }
 );
 
+// adding to fav
 export const addToFavAsyncThunk = createAsyncThunk(
   "products/addToFavAsyncThunk",
   async (product) => {
@@ -55,7 +63,7 @@ export const addToFavAsyncThunk = createAsyncThunk(
     return data;
   }
 );
-
+// del from fav
 export const deleteFromFavAsyncThunk = createAsyncThunk(
   "products/deleteFromFavAsyncThunk",
   async (product) => {
@@ -73,40 +81,49 @@ export const deleteFromFavAsyncThunk = createAsyncThunk(
     return id;
   }
 );
+// get detail of the movie
+export const getMovieAsyncThunk = createAsyncThunk(
+  "products/getMovieAsyncThunk",
+  async (id) => {
+    const requestOptions = {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    };
 
-export const getMovieAsyncThunk=createAsyncThunk("products/getMovieAsyncThunk",
-   async(id)=>{
-    const requestOptions={
-      method:"GET",
-      headers:{"Content-Type":"application/json"},
-    }
-
-    
-    const response=await fetch(`http://localhost:3001/products/${id}` , requestOptions);
-    const data=await response.json();
+    const response = await fetch(
+      `http://localhost:3001/products/${id}`,
+      requestOptions
+    );
+    const data = await response.json();
     return data;
-   }
-)
-export const deleteProductAsyncThunk=createAsyncThunk("products/deleteProductAsyncThunk",
-    async(id)=>{
-      const requestOptions={
-        method:"DELETE",
-      }
-      const response=await fetch(`http://localhost:3001/products/${id}`, requestOptions);
-      const data=await response.json();
-      return data;
-    }
-)
+  }
+);
+// delete a product
+export const deleteProductAsyncThunk = createAsyncThunk(
+  "products/deleteProductAsyncThunk",
+  async (id) => {
+    const requestOptions = {
+      method: "DELETE",
+    };
+    const response = await fetch(
+      `http://localhost:3001/products/${id}`,
+      requestOptions
+    );
+    const data = await response.json();
+    return data;
+  }
+);
 
 const productSlice = createSlice({
   name: "products",
-  initialState,
-  reducers: {},
-  extraReducers: {
 
-    [deleteProductAsyncThunk.fulfilled]:(state , {payload})=>{
-      toast("deleted");
-      // navigate to home
+  initialState,
+
+  reducers: {},
+
+  extraReducers: {
+    [deleteProductAsyncThunk.fulfilled]: (state, { payload }) => {
+      toast.success("Deleted", { theme: "dark", autoClose: 600 });
       return state;
     },
 
@@ -117,42 +134,36 @@ const productSlice = createSlice({
 
     [addAsyncThunk.fulfilled]: (state, { payload }) => {
       state.products.push(payload);
-      toast.success("product created", { theme: "dark", autoClose: 600 });
+      toast.success("Creared a product", { theme: "dark", autoClose: 600 });
       return state;
     },
 
     [addAsyncThunk.rejected]: (state, { payload }) => {
-      console.log("rejected in adding a new products");
       return state;
     },
+
     [cartAsyncThunk.fulfilled]: (state, { payload }) => {
       return { ...state, cart: payload };
-
     },
+
     [addToFavAsyncThunk.fulfilled]: (state, { payload }) => {
-      toast.success("added to fav", { theme: "dark", autoClose: 600 });
+      toast.success("Added to cart", { theme: "dark", autoClose: 600 });
       state.cart.push(payload);
-      console.log(state);
       return state;
     },
+
     [deleteFromFavAsyncThunk.fulfilled]: (state, { payload }) => {
       state.cart = state.cart.filter((item) => item.id !== payload);
-      toast.success("removed from fav", { theme: "dark", autoClose: 600 });
+      toast.success("Deleted from cart", { theme: "dark", autoClose: 600 });
       return state;
-    }
-    ,
-    [getMovieAsyncThunk.fulfilled]:(state,{payload})=>{
-      // console.log(payload);
-      return state
-    }
-  },  
+    },
+
+    [getMovieAsyncThunk.fulfilled]: (state, { payload }) => {
+      toast.success("Fetched details ", { theme: "dark", autoClose: 600 });
+      return state;
+    },
+  },
 });
-
-//expo  rt the state;
-
-//export the actions for disptaching anywhere from the app
-
-//defautl eport for the reducers
 
 export const getAllProducts = (state) => {
   const products = {
@@ -161,19 +172,22 @@ export const getAllProducts = (state) => {
   };
 
   const allproducts = state.products.products;
-    if(allproducts!=undefined){
-      allproducts.map((product) => {
-        if (product.men === "true") {
-          products.men.push(product);
-        } else {
-          products.women.push(product);
-        }
-      });
-    }
-   
+  
+  // to send all products from state;
+  if (allproducts != undefined) {
+    allproducts.map((product) => {
+      if (product.men === "true") {
+        products.men.push(product);
+      } else {
+        products.women.push(product);
+      }
+    });
+  }
+
   return products;
 };
 
+// function to send the cartlist
 export const getItemsFromcart = (state) => {
   const cartItems = state.products.cart;
   return cartItems;
