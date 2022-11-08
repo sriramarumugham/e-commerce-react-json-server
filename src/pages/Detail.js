@@ -100,9 +100,11 @@ function Detail() {
           <button
             onClick={() => {
               if (checkFav(product.id)) {
-                deleteFromFavAsyncThunk(product);
+                dispatch(deleteFromFavAsyncThunk(product));
+                console.log("dele to fav")
               } else {
-                addToFavAsyncThunk({ ...product, quantity: 1 });
+                console.log("add to fav")
+                dispatch(addToFavAsyncThunk({ ...product, quantity: 1 }));
               }
             }}
           >
