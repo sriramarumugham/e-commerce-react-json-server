@@ -516,28 +516,6 @@
       "sizeM": "true",
       "sizeS": "true",
       "url": " https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAHfXFBvzOc0-d1q6SSCcnr9VgFfcP2x74PAGdMMdTljI4R2m_-Mpm7staVFKeXzF_vaM&usqp=CAU"
-    },
-    {
-      "id": "36e9a535-1631-45ec-a24e-e3b6230058d1",
-      "color": "d",
-      "men": "true",
-      "name": "sample",
-      "price": "7",
-      "sizeL": "",
-      "sizeM": "",
-      "sizeS": "true",
-      "url": "e"
-    },
-    {
-      "id": "9394130f-2a46-459f-a7d8-410609c7dce9",
-      "color": "d",
-      "men": "true",
-      "name": "sample",
-      "price": "3",
-      "sizeL": "",
-      "sizeM": "",
-      "sizeS": "true",
-      "url": "d"
     }
   ],
   "cart": [
