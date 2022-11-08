@@ -544,54 +544,6 @@
       "quantity": 1
     },
     {
-      "id": "a84e0092-848e-4e4e-ae9f-1bc5dfab5255",
-      "color": "white",
-      "men": "false",
-      "name": "Over sized t-shirt",
-      "price": "400",
-      "sizeL": "true",
-      "sizeM": "true",
-      "sizeS": "true",
-      "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5Ro-4E4xwU_ovFmRAzJkXHoV4EeE5o8q-jgr9qcTjvUKYyOBso5zhF1Al72hWWxi7-Tw&usqp=CAU",
-      "quantity": 1
-    },
-    {
-      "id": "cafb7365-ea00-4f0d-b68f-68e6ed2615e5",
-      "color": "Pink",
-      "men": "true",
-      "name": "Men's Pink t-shirt",
-      "price": "500",
-      "sizeL": "true",
-      "sizeM": "true",
-      "sizeS": "true",
-      "url": "https://assets.ajio.com/medias/sys_master/root/h6c/h08/12829356064798/-473Wx593H-460322907-purple-MODEL.jpg",
-      "quantity": 1
-    },
-    {
-      "id": "33199ce6-43c5-4598-9ae7-5ef65d4059cb",
-      "color": "Black",
-      "men": "true",
-      "name": "Men's sweat shirt",
-      "price": "500",
-      "sizeL": "true",
-      "sizeM": "true",
-      "sizeS": "true",
-      "url": "https://assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/12377258/2020/9/11/ce1b7bcb-a65a-4eb0-a317-42ac02718f1e1599798741705UrbanoFashionPrintedMenRoundNeckDarkGreenT-Shirt1.jpg",
-      "quantity": 1
-    },
-    {
-      "id": "7639d123-a465-4280-ab18-a90fc7886336",
-      "color": "Blue",
-      "men": "true",
-      "name": "Crew neck t-shirt",
-      "price": "400",
-      "sizeL": "true",
-      "sizeM": "true",
-      "sizeS": "true",
-      "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQm__08Pgqpextceh7ss5gPzna6HbKpD7DrAINPItT74yC5nTcCAwBhQwPj3fwez2FfoTI&usqp=CAU",
-      "quantity": 1
-    },
-    {
       "id": "ba696c6b-20e3-49ae-9d5b-bcd2c8350a29",
       "color": "Blue",
       "men": "true",
@@ -613,6 +565,18 @@
       "sizeM": "true",
       "sizeS": "true",
       "url": "https://cdn.shopify.com/s/files/1/0752/6435/products/HERO-CROP_3403736d-8645-40ab-af3f-a60a812b9f28.jpg?v=1663857881",
+      "quantity": 1
+    },
+    {
+      "id": "358a3110-35e1-4b45-a696-df65ce439fe7",
+      "color": "Green",
+      "men": "true",
+      "name": "Men's sweat shirt",
+      "price": "600",
+      "sizeL": "true",
+      "sizeM": "true",
+      "sizeS": "true",
+      "url": "https://m.media-amazon.com/images/I/81twBBwYQrL._AC_UL320_.jpg",
       "quantity": 1
     }
   ]
